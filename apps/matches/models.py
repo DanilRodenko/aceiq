@@ -75,6 +75,7 @@ class Match(models.Model):
 
     class Meta:
         ordering = ["-tournament_date"]
+        verbose_name_plural = "Matches"
 
     def __str__(self):
         return f"{self.winner} vs {self.loser} — {self.tournament_name} ({self.tournament_date})"
