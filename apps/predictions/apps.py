@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class PredictionsConfig(AppConfig):
-    name = "predictions"
+    name = "apps.predictions"

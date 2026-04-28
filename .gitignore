@@ -5,3 +5,4 @@ __pycache__/
 ml/data/raw/
 ml/models/saved/
 db.sqlite3
+test.py
