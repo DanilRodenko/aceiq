@@ -1,5 +1,10 @@
 # AceIQ Roadmap
 
+## ML Models
+- [x] ATP Tour model (основной тур)
+- [] Challenger model
+- [ ] Futures model
+
 ## In Progress
 - [ ] load_players.py
 - [ ] load_matches.py
