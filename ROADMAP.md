@@ -8,12 +8,13 @@
 - [x] load_matches.py (195k matches)
 
 ## Phase 2 — Player Analytics (START HERE)
-- [ ] K-Means clustering: Defender / Aggressive / All-Court / Serve-Volley
-- [ ] Player stats dashboard (aces, df, 1st serve %, bp saved)
+- [x] 01_clustering.ipynb — research, K-Means, MLflow tracking
+- [ ] 02_clustering_by_surface.ipynb — 3 separate clusterings (Hard/Clay/Grass)
+- [ ] Player archetypes saved to DB (PlayerCluster model)
+- [ ] Player stats dashboard
 - [ ] H2H history page
-- [ ] Player performance vs cluster type
-      (e.g. "Sinner is 2-8 vs Defenders last 10 matches")
-- [ ] Player ranking page with filters
+- [ ] Player performance vs archetype type
+- [ ] Player ranking page
 
 ## Phase 3 — ML Pipeline (MLflow + MLOps)
 - [ ] MLflow tracking setup
