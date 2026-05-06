@@ -78,6 +78,13 @@
 </div>
 {% endif %}
 
+{% if radar_chart %}
+<h2 class="section-title">Player <span>Profile</span></h2>
+<div class="card" style="display:flex; justify-content:center; align-items:center; min-height:520px;">
+    <div id="radar-chart" style="width:600px; height:600px;"></div>
+</div>
+{% endif %}
+
 <h2 class="section-title">Stats by <span>Season</span></h2>
 <div class="card">
     <table>
@@ -159,4 +166,12 @@ function toggleAccordion(header) {
         body.classList.contains('open') ? '▲' : '▼';
 }
 </script>
+
+{% if radar_chart %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    var chartData = JSON.parse('{{ radar_chart|escapejs }}');
+    Plotly.newPlot('radar-chart', chartData.data, chartData.layout);
+</script>
+{% endif %}
 {% endblock %}
