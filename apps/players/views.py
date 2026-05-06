@@ -1,12 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Avg, Count, Q
+from django.core.paginator import Paginator
 from .models import Player
 from apps.matches.models import Match
 from datetime import date
 
 
 def player_list(request):
-    players = Player.objects.all()
+    players_qs = Player.objects.all()
+    paginator = Paginator(players_qs, 50)
+    page = request.GET.get("page", 1)
+    players = paginator.get_page(page)
     return render(request, "players/player_list.html", {"players": players})
 
 

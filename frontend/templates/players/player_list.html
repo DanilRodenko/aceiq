@@ -36,4 +36,18 @@
         </tbody>
     </table>
 </div>
+<!-- PAGINATION -->
+<div style="display:flex; justify-content:center; gap:8px; margin-top:24px;">
+    {% if players.has_previous %}
+        <a href="?page={{ players.previous_page_number }}" class="compare-btn">← Prev</a>
+    {% endif %}
+    
+    <span style="padding:10px 16px; background:var(--white); border:1px solid var(--border); border-radius:6px; font-size:14px;">
+        Page {{ players.number }} of {{ players.paginator.num_pages }}
+    </span>
+    
+    {% if players.has_next %}
+        <a href="?page={{ players.next_page_number }}" class="compare-btn">Next →</a>
+    {% endif %}
+</div>
 {% endblock %}
