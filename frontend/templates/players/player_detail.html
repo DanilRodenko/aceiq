@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ player.name }} — AceIQ{% endblock %}
+
+{% block content %}
+
+<div class="player-header">
+    <div class="player-avatar">
+        {{ player.name|slice:":1" }}{{ player.name|slice:"-1:" }}
+    </div>
+
+    <div class="player-info">
+        <div class="status-badge {% if player.is_active %}status-active{% else %}status-retired{% endif %}">
+            {% if player.is_active %}● Active{% else %}● Retired{% endif %}
+        </div>
+
+        <h1>{{ player.name }}</h1>
+
+        <div class="player-meta">
+            {% if player.date_of_birth %}
+            <span>🎂 {{ player.date_of_birth|date:"d M Y" }} {% if age %}({{ age }} years){% endif %}</span>
+            {% endif %}
+            <span>{{ player.get_flag }} {{ player.country }}</span>
+            {% if player.height_cm %}
+            <span>📏 {{ player.height_cm }} cm</span>
+            {% endif %}
+            <span>🎾 {{ player.get_hand_display }} handed</span>
+        </div>
+
+        {% if player.current_rank %}
+        <div class="rank-box">
+            <small>ATP Rank</small>
+            #{{ player.current_rank }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<h2 class="section-title">Career <span>Stats</span></h2>
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ total_matches }}</div>
+        <div class="stat-label">Total Matches</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value accent">{{ total_wins }}</div>
+        <div class="stat-label">Wins</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_losses }}</div>
+        <div class="stat-label">Losses</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value accent">{{ win_rate }}%</div>
+        <div class="stat-label">Win Rate</div>
+    </div>
+</div>
+
+{% if avg_stats.avg_aces %}
+<h2 class="section-title">Average <span>Per Match</span></h2>
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ avg_stats.avg_aces|floatformat:1 }}</div>
+        <div class="stat-label">Aces</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ avg_stats.avg_df|floatformat:1 }}</div>
+        <div class="stat-label">Double Faults</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ avg_stats.avg_1stWon|floatformat:1 }}</div>
+        <div class="stat-label">1st Serve Won</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ avg_stats.avg_bpSaved|floatformat:1 }}</div>
+        <div class="stat-label">BP Saved</div>
+    </div>
+</div>
+{% endif %}
+
+<h2 class="section-title">Stats by <span>Season</span></h2>
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Season</th>
+                <th>Wins</th>
+                <th>Avg Aces</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for season in season_stats %}
+            <tr>
+                <td><strong>{{ season.tournament_date__year }}</strong></td>
+                <td>{{ season.wins }}</td>
+                <td>{{ season.avg_aces|floatformat:1|default:"—" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2 class="section-title">Match <span>History</span></h2>
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+        Last {{ recent_matches|length }} matches
+        <span>▼</span>
+    </div>
+    <div class="accordion-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Tournament</th>
+                    <th>Round</th>
+                    <th>Opponent</th>
+                    <th>Result</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for match in recent_matches %}
+                <tr>
+                    <td>{{ match.tournament_date|date:"d M Y" }}</td>
+                    <td>{{ match.tournament_name }}</td>
+                    <td>{{ match.round }}</td>
+                    <td>
+                        {% if match.winner == player %}
+                            {{ match.loser.name }}
+                        {% else %}
+                            {{ match.winner.name }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if match.winner == player %}
+                            <span style="color:#7ab000;font-weight:700;">W</span>
+                        {% else %}
+                            <span style="color:#ef4444;font-weight:700;">L</span>
+                        {% endif %}
+                    </td>
+                    <td style="font-family:monospace;">{{ match.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<a href="#" class="compare-btn">⚖️ Compare Players</a>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleAccordion(header) {
+    const body = header.nextElementSibling;
+    body.classList.toggle('open');
+    header.querySelector('span').textContent =
+        body.classList.contains('open') ? '▲' : '▼';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Players — AceIQ{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>ATP <span>Players</span></h1>
+    <p>{{ players.count }} players in database</p>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Country</th>
+                <th>Hand</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+            <tr>
+                <td><strong>#{{ player.current_rank|default:"—" }}</strong></td>
+                <td>{{ player.name }}</td>
+                <td>{{ player.country }}</td>
+                <td>{{ player.get_hand_display }}</td>
+                <td>
+                    <a href="/players/{{ player.slug }}/" style="color: var(--ace-dark); font-weight: 600; text-decoration: none; font-size: 13px;">
+                        View →
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
